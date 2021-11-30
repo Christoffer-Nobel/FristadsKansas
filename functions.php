@@ -48,6 +48,37 @@ function hentKundeoplysninger($telefonnummer, $brugerid){
   return $nav;
 }
 
+$telefonnummer = null;
+function hentKunde($telefonnummer){
+  global $conn;
+
+  $sql = 'SELECT * FROM kunde WHERE telefonnummer ="'. $telefonnummer .'"';
+  $result = mysqli_query($conn, $sql);
+  $nav = [];
+
+  if(mysqli_num_rows($result) > 0) {
+    while($row = mysqli_fetch_assoc($result)) {
+      $nav[] = $row;
+    }
+  }
+  return $nav;
+}
+
+function hentAbonnementer(){
+  global $conn;
+
+  $sql = 'SELECT * FROM abonnementer WHERE abonnement_id > 0';
+  $result = mysqli_query($conn, $sql);
+  $nav = [];
+
+  if(mysqli_num_rows($result) > 0) {
+    while($row = mysqli_fetch_assoc($result)) {
+      $nav[] = $row;
+    }
+  }
+  return $nav;
+}
+
 
 
 function debug($data) {
