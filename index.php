@@ -4,36 +4,36 @@ include('conn.php');
 include('functions.php');
 connect();
 include("header.php");
-$employee[0]['forhandler'] = NULL;
-if(isset($_SESSION['employee']) && $_SESSION['employee']['forhandler'] == 1){
-    include('customerNav.php');
-}elseif(isset($_SESSION['employee']) && $_SESSION['employee']['forhandler'] == 0){
+$bruger[0]['forhandler'] = NULL;
+if(isset($_SESSION['bruger']) && $_SESSION['bruger']['forhandler'] == 1){
+    include('kundeNav.php');
+}elseif(isset($_SESSION['bruger']) && $_SESSION['bruger']['forhandler'] == 0){
     include('mainNav.php');
 }else{
     ?>
     <form method="post">
         <h1>Login</h1>
-        <input type="text" name="username" placeholder="Brugernavn" required><br>
-        <input type="password" name="password" placeholder="Kodeord" required><br>
+        <input type="text" name="brugernavn" placeholder="Brugernavn" required><br>
+        <input type="password" name="kodeord" placeholder="Kodeord" required><br>
         <input type="submit" name="btnlogin" value="Login">
     </form>
     <?php
     if(isset($_POST['btnlogin']))
     {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
+    $brugernavn = $_POST['brugernavn'];
+    $kodeord = $_POST['kodeord'];
                     
-    $employee = getEmployee($username);
-    if(isset($employee)){
-            if($_POST['password'] == $employee[0]['kodeord']){
-                $_SESSION['employee'] = $employee[0];  
-                header("Refresh:0");
+    $bruger = hentBruger($brugernavn);
+        if(isset($bruger)){
+                if($_POST['kodeord'] == $bruger[0]['kodeord']){
+                    $_SESSION['bruger'] = $bruger[0];  
+                    header("Refresh:0");
+                }else{
+                    echo "Kode eller brugernavn er forkert";
+                }
             }else{
                 echo "Kode eller brugernavn er forkert";
-            }
-        }else{
-            echo "Kode eller brugernavn er forkert";
-        }  
+            }  
+        }
     }
-}
 include("footer.php");
