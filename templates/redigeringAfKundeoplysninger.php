@@ -2,9 +2,10 @@
     $telefonnummer = $_SESSION['kundeTelefonnummer'];
     $brugerid = $_SESSION['bruger']['bruger_id'];
     $kundeoplysninger = hentKundeoplysninger($telefonnummer, $brugerid);
+    $nyKunde = hentNyKunde($telefonnummer, $brugerid);
     $resultat = null;   
         ?>
-<p>Aktive abonnementer for <?php echo $kundeoplysninger[0]['kundenavn']?></p>
+<p>Aktive abonnementer for <?php echo $nyKunde[0]['kundenavn']?></p>
 <table class="table table-striped">
     <thead>
         <tr>

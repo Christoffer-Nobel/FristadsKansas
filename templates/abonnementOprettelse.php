@@ -4,6 +4,7 @@ $telefonnummer = $_SESSION['kundeTelefonnummer'];
 $kundeOplysninger = hentKunde($telefonnummer);
 $abonnementer = hentAbonnementer();
 $kundeabonnementer = hentKundeoplysninger($telefonnummer, $brugerid);
+$nyKunde = hentNyKunde($telefonnummer, $brugerid);
 
 ?>
 
@@ -16,7 +17,7 @@ $kundeabonnementer = hentKundeoplysninger($telefonnummer, $brugerid);
     <input type="number" name="antal" placeholder="Antal">
     <input type="submit" name="btnsubmit" value="Opret abonnement">
 </form>
-<p> Aktive abonnementer</p>
+<p> Aktive abonnementer for <?php echo $nyKunde[0]['kundenavn']?></p>
 <table class="table table-striped">
     <thead>
         <tr>
@@ -43,18 +44,25 @@ $kundeabonnementer = hentKundeoplysninger($telefonnummer, $brugerid);
 if(isset($_POST['btnsubmit'])){
     $abonnementtype = $_POST['abonnementtype'];
     $antal = $_POST['antal'];
-    $kundeid = $kundeOplysninger[0]['kunde_id'];
-    foreach($kundeabonnementer as $kundeabonnement){
-        if($kundeabonnement['abonnement_id'] == $abonnementtype){
-        echo "Dette abonnemnet er allerede oprettet for kunden";
-        break;
-        } else{
+    $kundeid = $nyKunde[0]['kunde_id'];
+    if(isset($kundeabonnementer[0]['abonnement_id'])){
+        foreach($kundeabonnementer as $kundeabonnement){
+            if($kundeabonnement['abonnement_id'] == $abonnementtype){
+            echo "Dette abonnemnet er allerede oprettet for kunden";
+            break;
+            } else{
+            $sql = "INSERT INTO kunde_abonnementer (kunde_id, abonnement_id, antal) VALUES ('$kundeid', '$abonnementtype', '$antal');";
+            $result = mysqli_query($conn, $sql);
+            echo "abonnement er oprettet, siden vil opdateres";
+            header('refresh:2');
+            break;
+            }
+        }
+    }elseif(!isset(($kundeabonnementer[0]['abonnement_id']))){
         $sql = "INSERT INTO kunde_abonnementer (kunde_id, abonnement_id, antal) VALUES ('$kundeid', '$abonnementtype', '$antal');";
         $result = mysqli_query($conn, $sql);
         echo "abonnement er oprettet, siden vil opdateres";
         header('refresh:2');
-        break;
-        }
     }
 }
 ?>

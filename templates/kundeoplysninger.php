@@ -13,6 +13,6 @@ if(isset($_POST['btnsubmit'])){
         header('location:./index.php?nav=redigeringAfKundeoplysninger');
 
     }else{
-        echo "Der kunne desværre ikke findes en kunde med dette telefonnummer";
+        echo "Der kunne desværre ikke findes et abonnement til denne kunde";
     }
 }

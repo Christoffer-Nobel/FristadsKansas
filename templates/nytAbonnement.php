@@ -7,12 +7,12 @@
 if(isset($_POST['btnsubmit'])){
     $telefonnummer = $_POST['telefonnummer'];
     $_SESSION['kundeTelefonnummer'] = $telefonnummer;
-    $brugerid = $_SESSION['bruger']['bruger_id'];
-    $kundeoplysninger = hentKundeoplysninger($telefonnummer, $brugerid);
-    if(isset($kundeoplysninger[0]['telefonnummer']) && $telefonnummer == $kundeoplysninger[0]['telefonnummer']){
-        header('location:./index.php?nav=abonnementOprettelse');
-
-    }else{
-        echo "Der kunne desværre ikke findes en kunde med dette telefonnummer";
     }
-}
+$brugerid = $_SESSION['bruger']['bruger_id'];
+$kundeoplysninger = hentNyKunde($telefonnummer, $brugerid);
+if(isset($kundeoplysninger[0]['telefonnummer']) && $telefonnummer == $kundeoplysninger[0]['telefonnummer']){
+    header('location:./index.php?nav=abonnementOprettelse');
+
+}else{
+    echo "Der kunne desværre ikke findes en kunde med dette telefonnummer";
+    }

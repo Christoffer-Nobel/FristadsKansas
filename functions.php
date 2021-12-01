@@ -49,6 +49,23 @@ function hentKundeoplysninger($telefonnummer, $brugerid){
 }
 
 $telefonnummer = null;
+$brugerid = null;
+function hentNyKunde($telefonnummer, $brugerid){
+  global $conn;
+
+  $sql = 'SELECT * FROM kunde WHERE telefonnummer ="'. $telefonnummer .'" AND butikstilhørsforhold ="'. $brugerid . '"';
+  $result = mysqli_query($conn, $sql);
+  $nav = [];
+
+  if(mysqli_num_rows($result) > 0) {
+    while($row = mysqli_fetch_assoc($result)) {
+      $nav[] = $row;
+    }
+  }
+  return $nav;
+}
+
+$telefonnummer = null;
 function hentKunde($telefonnummer){
   global $conn;
 
@@ -68,6 +85,21 @@ function hentAbonnementer(){
   global $conn;
 
   $sql = 'SELECT * FROM abonnementer WHERE abonnement_id > 0';
+  $result = mysqli_query($conn, $sql);
+  $nav = [];
+
+  if(mysqli_num_rows($result) > 0) {
+    while($row = mysqli_fetch_assoc($result)) {
+      $nav[] = $row;
+    }
+  }
+  return $nav;
+}
+
+function hentUdleveretTøj($abonnementid){
+  global $conn;
+
+  $sql = 'SELECT udleveret_tøj FROM kunde_abonnementer WHERE kunde_abonnement_id = "'. $abonnementid .'"';
   $result = mysqli_query($conn, $sql);
   $nav = [];
 
